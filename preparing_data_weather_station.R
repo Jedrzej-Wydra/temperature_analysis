@@ -19,8 +19,12 @@ weather_station_august %>%
   summarise(temperature = mean(temperature)) %>% 
   na.omit() %>% 
   mutate(time = ymd_h(time)) %>% 
-  subset(time>=ymd_h('2021-08-02 00') & time<=ymd_h('2021-08-18 00')) ->
+  subset(time>=ymd_h('2021-08-02 01') & time<=ymd_h('2021-08-17 01')) ->
   weather_station_august
+
+time_august <- ymd_h('2021-08-02 01') + hours(0:360)
+
+weather_station_august <- left_join(data.frame(time = time_august), weather_station_august)
 
 # december
 
@@ -41,8 +45,12 @@ weather_station_december %>%
   summarise(temperature = mean(temperature)) %>% 
   na.omit() %>% 
   mutate(time = ymd_h(time)) %>% 
-  subset(time>=ymd_h('2021-12-05 00') & time<=ymd_h('2021-12-21 00')) ->
+  subset(time>=ymd_h('2021-12-05 01') & time<=ymd_h('2021-12-20 01')) ->
   weather_station_december
+
+time_december <- ymd_h('2021-12-05 01') + hours(0:360)
+
+weather_station_december <- left_join(data.frame(time = time_december), weather_station_december)
 
 #save datasets
 
