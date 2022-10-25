@@ -1,4 +1,4 @@
-fun_linear_model <- function(location, month, summary = FALSE) {
+fun_linear_model <- function(location, month, n = 0, d = 1, summary = FALSE) {
   
   if (month == "August")
   {
@@ -23,17 +23,28 @@ fun_linear_model <- function(location, month, summary = FALSE) {
   
   dataset <- fun_prepare_data(location, month)
   
-  model <- lm(dataset$temperature ~ weather_station$temperature)
+  if (n == 0) {n <- dim(dataset[1])}
+  
+  dataset_boot <- bootstrap_prepare(dataset, n, d)
+  
+  model <- lm(dataset_boot$temperature ~ weather_station$temperature)
+  
+  model_best <- lm(dataset$temperature ~ weather_station$temperature)
+  
+  error <- sum((dataset$temperature -
+                  model$coef[2]*weather_station$temperature -
+                  model$coef[1])^2,
+               na.rm = T)
   
   error_min <- sum((dataset$temperature -
-                      model$coef[2]*weather_station$temperature -
-                      model$coef[1])^2,
+                      model_best$coef[2]*weather_station$temperature -
+                      model_best$coef[1])^2,
                    na.rm = T)
   
   error_max <- sum((dataset$temperature -
                       weather_station$temperature)^2,
                    na.rm = T)
   
-  if (summary) {return(list(Summary = summary(model), Min_error = error_min, Max_error = error_max))}
-  else {return(c(Min_error = error_min, Max_error = error_max))}
+  if (summary) {return(list(Summary = summary(model), error = error, Best_error = error_min, Worst_error = error_max))}
+  else {return(c(error = error, Best_error = error_min, Worst_error = error_max))}
 }

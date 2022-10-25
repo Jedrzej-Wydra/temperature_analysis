@@ -1,6 +1,6 @@
 #distance between at least two observation is greater than or equal to d
 
-bootstrap_prepare <- function(dataset, n = dim(dataset[1]), d = 0) {
+bootstrap_prepare <- function(dataset, n = dim(dataset[1]), d = 1) {
   
   if (n == dim(dataset)[1]) return(dataset)
   if (n < 2) return(print("Argument >>n<< is to small"))
