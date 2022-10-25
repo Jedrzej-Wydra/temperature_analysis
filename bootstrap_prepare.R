@@ -5,15 +5,16 @@ bootstrap_prepare <- function(dataset, n = dim(dataset[1]), d = 0) {
   if (n == dim(dataset)[1]) return(dataset)
   if (n < 2) return(print("Argument >>n<< is to small"))
   
-  df <- dataset[1:(dim(dataset)[1] - d),]
+  samp <- 1:(dim(dataset)[1] - (d - 1))
   
-  random_df <- df[sample(1:(dim(dataset)[1]), n-1),]
-  last_observation <- random_df$time[length(random_df$time)] + hours(d)
-  index <- match(last_observation, dataset$time)
+  l1 <- sample(samp,1)
+  l2 <- l1 + (d - 1)
   
-  data <- rbind(random_df, dataset[index,])
+  ln <- sample((l1+1):(l2-1), n-2)
   
-  bootstrap_sample <- dplyr:: left_join(data.frame(time = dataset$time), data)
+  df <- dataset[c(l1,ln,l2),]
+  
+  bootstrap_sample <- dplyr:: left_join(data.frame(time = dataset$time), df)
   
   return(bootstrap_sample)
 }
