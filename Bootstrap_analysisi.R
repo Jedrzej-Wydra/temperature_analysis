@@ -45,7 +45,7 @@ for (i in locations)
         {
           for (l in 1:1000) # change to 1 000
           {
-            print(paste(step,"of",549000))
+            print(paste(step,"of",1098000))
         
             results <- fun_linear_model(data_loc, i, month, k, j)
             bootstrap_dataset <- rbind(bootstrap_dataset,
