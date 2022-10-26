@@ -2,7 +2,8 @@ START <- Sys.time()
 
 library(readr)
 
-month <- "August"
+for (month in c("August", "December"))
+{
 
 step = 1
 
@@ -64,6 +65,8 @@ for (i in locations)
 
 rownames(bootstrap_dataset) <- NULL
 
-write.csv(bootstrap_dataset, 'bootstrap_august.csv')
+write.csv(bootstrap_dataset, paste0('bootstrap_',tolower(month),'.csv'))
+
+}
 
 Sys.time() - START
