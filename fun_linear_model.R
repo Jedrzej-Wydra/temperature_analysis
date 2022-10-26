@@ -25,7 +25,7 @@ fun_linear_model <- function(location, month, n = 0, d = 1, summary = FALSE) {
   
   if (n == 0) {n <- dim(dataset[1])}
   
-  dataset_boot <- bootstrap_prepare(dataset, n, d)
+  dataset_boot <- bootstrap_prepare(month, dataset, n, d)
   
   model <- lm(dataset_boot$temperature ~ weather_station$temperature)
   
