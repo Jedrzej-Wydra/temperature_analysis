@@ -10,12 +10,14 @@ fun_prepare_data <- function(location, month) {
     date1 <- '2021-08-02 01'
     date2 <- '2021-08-02 00'
     date3 <- '2021-08-17 01'
+    indices <- 146:361
   }
   if (month == "December")
   {
     date1 <- '2021-12-05 01'
     date2 <- '2021-12-05 00'
     date3 <- '2021-12-20 01'
+    indices <- 1:241
   } 
   
   if (location == "weather_station") {return()}
@@ -41,7 +43,9 @@ fun_prepare_data <- function(location, month) {
   names(file_1) <- c('nr', 'Time', 'Temp1', 'Temp2', 'col1', 'col2')
   names(file_2) <- c('nr1', 'Time1', 'Temp3', 'Temp4', 'col11', 'col21')
   
-  table <- cbind(file_1, file_2)
+  number_of_rows <- min(c(nrow(file_1), nrow(file_2)))
+  
+  table <- cbind(file_1[1:number_of_rows,], file_2[1:number_of_rows,])
   
   remove(file_1, file_2)
   
@@ -56,5 +60,5 @@ fun_prepare_data <- function(location, month) {
     subset(time>=ymd_h(date2) & time<=ymd_h(date3)) ->
     table
   
-  return(table)
+  return(table[indices,])
 }

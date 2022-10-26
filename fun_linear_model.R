@@ -1,31 +1,34 @@
-fun_linear_model <- function(location, month, n = 0, d = 1, summary = FALSE) {
+fun_linear_model <- function(df, location, month, n = 0, d = 1, summary = FALSE) {
   
-  if (month == "August")
-  {
-    weather_station <- read_csv("datasets/August/weather_station/weather_station.csv")
-  }
-  if (month == "December")
-  {
-    weather_station <- read_csv("datasets/December/weather_station/weather_station.csv")
-  } 
+#  if (month == "August")
+#  {
+#    weather_station <- read_csv("datasets/August/weather_station/weather_station.csv")
+#    weather_station <- weather_station[146:361,]
+#  }
+#  if (month == "December")
+#  {
+#    weather_station <- read_csv("datasets/December/weather_station/weather_station.csv")
+#    weather_station <- weather_station[1:241,]
+#  } 
   
-  if (location == "weather_station") {return()}
-  if (!(month %in% c("August", "December"))) {return(print("Invalid value of argument >>month<<"))}
-  if (!(location %in% c("attic",
-                        "basement",
-                        "field",
-                        "forest",
-                        "garage",
-                        "roof",           
-                        "shack",
-                        "underground",
-                        "unhabited_bulding"))) {return(print("Invalid value of argument >>location<<"))}
+#  if (location == "weather_station") {return()}
+#  if (!(month %in% c("August", "December"))) {return(print("Invalid value of argument >>month<<"))}
+#  if (!(location %in% c("attic",
+#                        "basement",
+#                        "field",
+#                        "forest",
+#                        "garage",
+#                        "roof",           
+#                        "shack",
+#                        "underground",
+#                        "unhabited_bulding"))) {return(print("Invalid value of argument >>location<<"))}
   
-  dataset <- fun_prepare_data(location, month)
+#  dataset <- fun_prepare_data(location, month)
+  dataset <- df
   
   if (n == 0) {n <- dim(dataset[1])}
   
-  dataset_boot <- bootstrap_prepare(month, dataset, n, d)
+  dataset_boot <- bootstrap_prepare(dataset, n, d)
   
   model <- lm(dataset_boot$temperature ~ weather_station$temperature)
   
