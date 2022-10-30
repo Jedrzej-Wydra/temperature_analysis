@@ -70,3 +70,5 @@ write.csv(bootstrap_dataset, paste0('bootstrap_',tolower(month),'.csv'))
 }
 
 Sys.time() - START
+
+duration <- c("3.656984", "days")
